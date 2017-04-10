@@ -2,6 +2,18 @@
     min-height: 0;
 }
 
+.bb-udiff .bbpr-buttons button .bbpr-done {
+    display: none;
+}
+
+.bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-not-done {
+    display: none;
+}
+
+.bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-done {
+    display: inline;
+}
+
 .bb-udiff.bbpr-reviewed .heading {
     border-bottom: 1px solid #ccc;
     border-radius: 5px;
@@ -25,7 +37,7 @@ ul.commit-files-summary li.bbpr-reviewed a {
 }
 
 ul.commit-files-summary li.bbpr-reviewed::after,
-.bb-udiff.bbpr-reviewed .bbpr-buttons button::after {
+.bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-done::after {
     color: #0b0;
     content: '✔';
     display: inline-block;

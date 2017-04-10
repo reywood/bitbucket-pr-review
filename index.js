@@ -8,36 +8,71 @@ const hideDiffContents = Symbol('hideDiffContents');
 const hasBeenReviewed = Symbol('hasBeenReviewed');
 const summaryListElement = Symbol('summaryListElement');
 
+
+async function sha1(message) {
+    const msgBuffer = new TextEncoder('utf-8').encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-1', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => (`00${b.toString(16)}`).slice(-2)).join('');
+    return hashHex;
+}
+
+
 class DataStore {
-    static setReviewed(filepath, reviewed, hash, callback) {
+    static async setReviewed(filepath, reviewed, hash) {
         const key = DataStore[getFilePathKey](filepath);
-        const callbackWrapper = () => {
-            if (chrome.runtime.lastError) {
-                console.log('Setting value failed: ', chrome.runtime.lastError);
-            }
-            callback();
-        };
         if (reviewed) {
-            chrome.storage.sync.set({ [key]: hash }, callbackWrapper);
-        } else {
-            chrome.storage.sync.remove(key, callbackWrapper);
+            return DataStore.set(key, hash);
         }
+        return DataStore.remove(key);
     }
 
-    static hasBeenReviewed(filepath, hash, callback) {
+    static async hasBeenReviewed(filepath, hash) {
         const key = DataStore[getFilePathKey](filepath);
-        chrome.storage.sync.get(key, (items) => {
-            if (chrome.runtime.lastError) {
-                console.log('Getting value failed: ', chrome.runtime.lastError);
-            }
-            callback(items[key] === hash);
-        });
+
+        return (await DataStore.get(key)) === hash;
     }
 
     static [getFilePathKey](filepath) {
         const pullRequestElement = document.querySelector('#pullrequest');
         const prKey = `${pullRequestElement.dataset.compareDestValue}::pr${pullRequestElement.dataset.localId}`;
         return `${prKey}::${filepath}`;
+    }
+
+    static get(key) {
+        return new Promise((resolve, reject) => {
+            chrome.storage.sync.get(key, (items) => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve(items[key]);
+                }
+            });
+        });
+    }
+
+    static set(key, value) {
+        return new Promise((resolve, reject) => {
+            chrome.storage.sync.set({ [key]: value }, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    }
+
+    static remove(key) {
+        return new Promise((resolve, reject) => {
+            chrome.storage.sync.remove(key, () => {
+                if (chrome.runtime.lastError) {
+                    reject(chrome.runtime.lastError);
+                } else {
+                    resolve();
+                }
+            });
+        });
     }
 }
 
@@ -48,8 +83,10 @@ class FileDiff {
         this.filepath = this.element.dataset.path;
     }
 
-    get hash() {
-        return Sha1.hash(this.element.innerText);
+    async hash() {
+        const textElement = this.element.querySelector('.diff-content-container');
+        const textHash = await sha1(textElement.innerText);
+        return textHash;
     }
 
     initUI() {
@@ -61,7 +98,10 @@ class FileDiff {
     [createButton]() {
         const btn = document.createElement('button');
         btn.classList.add('aui-button', 'aui-button-light');
-        btn.textContent = 'Reviewed';
+        btn.innerHTML = `
+            <span class="bbpr-not-done">Done Reviewing</span>
+            <span class="bbpr-done">Reviewed</span>
+        `;
         btn.addEventListener('click', () => {
             this[handleButtonClick]();
         });
@@ -77,16 +117,14 @@ class FileDiff {
         actionsContainer.insertBefore(pluginActionsContainer, actionsContainer.firstChild);
     }
 
-    [updateDisplay]() {
-        this[hasBeenReviewed]((reviewed) => {
-            if (reviewed) {
-                this[summaryListElement].classList.add('bbpr-reviewed');
-                this[hideDiffContents]();
-            } else {
-                this[summaryListElement].classList.remove('bbpr-reviewed');
-                this[showDiffContents]();
-            }
-        });
+    async [updateDisplay]() {
+        if (await this[hasBeenReviewed]()) {
+            this[summaryListElement].classList.add('bbpr-reviewed');
+            this[hideDiffContents]();
+        } else {
+            this[summaryListElement].classList.remove('bbpr-reviewed');
+            this[showDiffContents]();
+        }
     }
 
     [hideDiffContents]() {
@@ -97,16 +135,16 @@ class FileDiff {
         this.element.classList.remove('bbpr-reviewed');
     }
 
-    [handleButtonClick]() {
-        this[hasBeenReviewed]((reviewed) => {
-            DataStore.setReviewed(this.filepath, !reviewed, this.hash, () => {
-                this[updateDisplay]();
-            });
-        });
+    async [handleButtonClick]() {
+        const hash = await this.hash();
+        const reviewed = await this[hasBeenReviewed]();
+        await DataStore.setReviewed(this.filepath, !reviewed, hash);
+        this[updateDisplay]();
     }
 
-    [hasBeenReviewed](callback) {
-        return DataStore.hasBeenReviewed(this.filepath, this.hash, callback);
+    async [hasBeenReviewed]() {
+        const hash = await this.hash();
+        return DataStore.hasBeenReviewed(this.filepath, hash);
     }
 
     get [summaryListElement]() {

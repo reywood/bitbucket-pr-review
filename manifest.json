@@ -9,7 +9,7 @@
         {
             "matches": ["https://bitbucket.org/*/pull-requests/*"],
             "css": ["style.css"],
-            "js": ["index.js", "sha1.js"]
+            "js": ["index.js"]
         }
     ],
     "permissions": [
