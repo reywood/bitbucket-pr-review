@@ -1,0 +1,19 @@
+{
+    "manifest_version": 2,
+
+    "name": "BitBucket Pull Request Review Helper",
+    "description": "This extension allows you to flag individual files in a pull request as reviewed",
+    "version": "1.0",
+
+    "content_scripts": [
+        {
+            "matches": ["https://bitbucket.org/*/pull-requests/*"],
+            "css": ["style.css"],
+            "js": ["index.js", "sha1.js"]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "storage"
+    ]
+}

@@ -1,0 +1,33 @@
+.bb-udiff.bbpr-reviewed {
+    min-height: 0;
+}
+
+.bb-udiff.bbpr-reviewed .heading {
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.bb-udiff .diff-content-container {
+    max-height: 1000em;
+    transition: max-height .5s, opacity .5s;
+}
+
+.bb-udiff.bbpr-reviewed .diff-content-container {
+    /*display: none;*/
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+ul.commit-files-summary li.bbpr-reviewed a {
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+ul.commit-files-summary li.bbpr-reviewed::after,
+.bb-udiff.bbpr-reviewed .bbpr-buttons button::after {
+    color: #0b0;
+    content: '✔';
+    display: inline-block;
+    padding-left: .5em;
+}
