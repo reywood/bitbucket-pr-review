@@ -85,7 +85,10 @@ class FileDiff {
 
     async hash() {
         const textElement = this.element.querySelector('.diff-content-container');
-        const textHash = await sha1(textElement.innerText);
+        const lineContent = FileDiff.serializeDiffLines(textElement);
+        const commentContent = FileDiff.serializeComments(textElement);
+
+        const textHash = await sha1(`${lineContent}\n${commentContent}`);
         return textHash;
     }
 
@@ -93,6 +96,35 @@ class FileDiff {
         const reviewedBtn = this[createButton]();
         this[attachButton](reviewedBtn);
         this[updateDisplay]();
+    }
+
+    static serializeDiffLines(textElement) {
+        return Array.from(textElement.querySelectorAll('.udiff-line'))
+            .map((line) => {
+                const lineNumbers = line.querySelector('.line-numbers');
+                const source = line.querySelector('.source');
+                const parts = [
+                    line.className,
+                    `${lineNumbers.dataset.fnum},${lineNumbers.dataset.tnum}`,
+                    source.innerText,
+                ];
+                return parts.join('\n');
+            })
+            .join('\n');
+    }
+
+    static serializeComments(textElement) {
+        return Array.from(textElement.querySelectorAll('.comment article'))
+            .map((comment) => {
+                const parts = [
+                    comment.id,
+                    comment.querySelector('.author').textContent,
+                    comment.querySelector('.comment-content').textContent,
+                    comment.querySelector('time').getAttribute('datetime'),
+                ];
+                return parts.join('\n');
+            })
+            .join('\n');
     }
 
     [createButton]() {

@@ -3,7 +3,7 @@
 
     "name": "BitBucket Pull Request Review Helper",
     "description": "This extension allows you to flag individual files in a pull request as reviewed",
-    "version": "1.0",
+    "version": "1.1",
 
     "content_scripts": [
         {
