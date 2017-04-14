@@ -2,15 +2,21 @@
     "root": true,
     "extends": "airbnb",
     "env": {
-        "browser": true
+        "browser": true,
+        "node": true
     },
     "globals": {
         "chrome": true,
-        "Sha1": true
+        "DataStore": true,
+        "FileDiff": true,
+        "FileDiffHashV1": true,
+        "FileDiffHashV2": true
     },
     "rules": {
         "complexity": ["error", 5],
         "indent": ["error", 4],
-        "no-console": 0
+        "no-console": 0,
+        "no-unused-vars": ["error", { "vars": "local" }],
+        "import/no-extraneous-dependencies": ["error", {"devDependencies": ["tests.js"]}]
     }
 }

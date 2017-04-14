@@ -1,0 +1,84 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="mocha"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+
+    <script id="diff-template" type="text/x-handlebars-template">
+        <section class="bb-udiff" data-path="{{filePath}}">
+            <div class="diff-container">
+                <div class="heading"></div>
+                <div class="diff-content-container">
+                    <div class="refract-content-container">
+                        {{#each diffLines}}
+                            <div class="udiff-line {{type}}">
+                                <div class="gutter" id="L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}">
+                                    <a href="#add-comment" class="add-diff-comment add-line-comment" title="Add a comment to this line">
+                                        <span class="aui-icon aui-icon-small aui-iconfont-add-comment">Add a comment to this line</span>
+                                    </a>
+                                    <a class="line-numbers"{{#if fnum}} data-fnum="{{fnum}}"{{/if}}{{#if tnum}} data-tnum="{{tnum}}"{{/if}} href="#L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}"></a>
+                                </div>
+                                <pre class="source">{{source}}</pre>
+                            </div>
+                        {{/each}}
+                        <div class="comment-thread-container">
+                            <ol class="comments-list">
+                                {{#each comments}}
+                                    <li class="comment">
+                                        <article id="comment-{{id}}" data-comment-id="{{id}}" data-content="{{content}}">
+                                            <header>
+                                                <a href="#" class="author">{{author}}</a>
+                                            </header>
+                                            <div class="wiki-content comment-content">
+                                                <p>{{content}}</p>
+                                            </div>
+                                            <ul class="comment-actions">
+                                                <li>
+                                                    <a class="permalink" href="#comment-{{id}}" title="Link directly to this comment">
+                                                        <time datetime="{{date}}" data-title="true" title="{{date}}">{{date}}</time>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </article>
+                                    </li>
+                                {{/each}}
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </script>
+
+    <div id="pullrequest" data-compare-dest-value="jane-doe/my-repo::master" data-local-id="100">
+        <div id="dom-sandbox" style="height: 0; width: 0; overflow: hidden;"></div>
+    </div>
+
+    <script>
+    mocha.setup('bdd')
+    </script>
+
+    <!-- src files -->
+    <script src="../src/dataStore.js"></script>
+    <script src="../src/fileDiff.js"></script>
+    <script src="../src/hash.js"></script>
+
+    <!-- test files -->
+    <script src="helpers.js"></script>
+    <script src="fileDiff.test.js"></script>
+    <script src="fileDiffHashV1.test.js"></script>
+    <script src="fileDiffHashV2.test.js"></script>
+
+    <script>
+    mocha.checkLeaks();
+    mocha.run();
+    </script>
+</body>
+</html>

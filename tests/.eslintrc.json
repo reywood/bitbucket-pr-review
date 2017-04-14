@@ -1,0 +1,14 @@
+{
+    "globals": {
+        "describe": true,
+        "it": true,
+        "chai": true,
+        "Handlebars": true,
+        "DiffDomElementBuilder": true
+    },
+    "rules": {
+        "func-names": 0,
+        "no-unused-expressions": 0,
+        "prefer-arrow-callback": 0
+    }
+}
