@@ -4,7 +4,7 @@ const set = Symbol('set');
 const remove = Symbol('remove');
 
 
-class DataStore {
+class DataStore { // eslint-disable-line no-unused-vars
     static async setReviewed(filepath, reviewed, hash) {
         const key = DataStore[getFilePathKey](filepath);
         if (reviewed) {

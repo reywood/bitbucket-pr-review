@@ -5,8 +5,7 @@ const showDiffContents = Symbol('showDiffContents');
 const hideDiffContents = Symbol('hideDiffContents');
 const summaryListElement = Symbol('summaryListElement');
 
-
-class FileDiff {
+class FileDiff { // eslint-disable-line no-unused-vars
     constructor(sectionElement) {
         this.element = sectionElement;
         this.filepath = this.element.dataset.path;

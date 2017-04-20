@@ -6,8 +6,7 @@ async function sha1(message) {
     return hashHex;
 }
 
-
-class FileDiffHashV2 {
+class FileDiffHashV2 { // eslint-disable-line no-unused-vars
     constructor(fileDiff) {
         this.fileDiff = fileDiff;
     }
@@ -50,7 +49,7 @@ class FileDiffHashV2 {
 }
 
 
-class FileDiffHashV1 {
+class FileDiffHashV1 { // eslint-disable-line no-unused-vars
     constructor(fileDiff) {
         this.fileDiff = fileDiff;
     }

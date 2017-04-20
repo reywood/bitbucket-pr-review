@@ -1,9 +1,12 @@
 {
     "root": true,
     "extends": "airbnb",
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "sourceType": "script"
+    },
     "env": {
-        "browser": true,
-        "node": true
+        "browser": true
     },
     "globals": {
         "chrome": true,

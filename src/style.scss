@@ -1,0 +1,154 @@
+$button-bg-color: #f5f5f5;
+$button-hover-bg-color: lighten($button-bg-color, 5%);
+$button-border-color: #ccc;
+$button-border-radius: 4px;
+
+.bbpr-menu {
+    display: block;
+    position: relative;
+    margin: 1em 0;
+    text-align: right;
+
+    .bbpr-menu-btn {
+        -webkit-appearance: button;
+        display: inline-block;
+        border: 1px solid $button-border-color;
+        border-radius: $button-border-radius;
+        padding: 6px 12px;
+        background-color: $button-bg-color;
+        background-image: none;
+        font-size: 14px;
+        white-space: nowrap;
+        line-height: 1.42857;
+        cursor: pointer;
+        outline-width: 0;
+    }
+
+    .bbpr-menu-items {
+        // display: none;
+        opacity: 0;
+        z-index: 100000;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        max-height: 0;
+        margin: -1px 0 0;
+        border: 1px solid $button-border-color;
+        border-top-left-radius: $button-border-radius;
+        border-bottom-right-radius: $button-border-radius;
+        border-bottom-left-radius: $button-border-radius;
+        padding: 0;
+        overflow: hidden;
+        background-color: $button-bg-color;
+        list-style: none;
+        text-align: left;
+        transition: max-height .5s, opacity .5s;
+        transition-timing-function: cubic-bezier(.29, 1.01, .52, 1);
+        box-sizing: border-box;
+
+        li {
+            margin: 0;
+            padding: 0;
+
+            button {
+                -webkit-appearance: none;
+                display: block;
+                width: 100%;
+                border-width: 0;
+                border-radius: $button-border-radius;
+                padding: .75em 1em;
+                background-color: transparent;
+                text-align: left;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: $button-hover-bg-color;
+            }
+
+            .bbpr-display-all-btn {
+                @at-root {
+                    .bbpr-open-all-diffs & {
+                        display: none;
+                    }
+                }
+            }
+
+            .bbpr-hide-all-btn {
+                display: none;
+
+                @at-root {
+                    .bbpr-open-all-diffs & {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+
+    &.bbpr-open {
+        .bbpr-menu-btn {
+            z-index: 100001;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .bbpr-menu-items {
+            // display: block;
+            opacity: 1;
+            max-height: 5em;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, .2);
+        }
+    }
+}
+
+ul.commit-files-summary li.bbpr-reviewed a {
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+ul.commit-files-summary li.bbpr-reviewed::after,
+.bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-done::after {
+    display: inline-block;
+    padding-left: .5em;
+    color: #0b0;
+    content: '✔';
+}
+
+.bb-udiff {
+    .bbpr-buttons button .bbpr-done {
+        display: none;
+    }
+
+    .diff-content-container {
+        max-height: 1000em;
+        transition: max-height .3s cubic-bezier(0, .99, 0, 1), opacity .3s linear;
+    }
+
+    &.bbpr-reviewed {
+        .bbpr-buttons button .bbpr-not-done {
+            display: none;
+        }
+
+        .bbpr-buttons button .bbpr-done {
+            display: inline;
+        }
+    }
+
+    @at-root {
+        #pullrequest-diff:not(.bbpr-open-all-diffs) &.bbpr-reviewed { // sass-lint:disable-line no-ids
+            min-height: 0;
+
+            .heading {
+                border-bottom: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .diff-content-container {
+                opacity: 0;
+                max-height: 0;
+                overflow: hidden;
+            }
+        }
+    }
+}
