@@ -21,13 +21,20 @@ function openMenu() {
 
 function closeMenuOnBodyClick(e) {
     const menuContainer = document.getElementById('bbpr-menu');
-    const menuButton = menuContainer.querySelector('.bbpr-menu-btn');
-    const displayAllButton = menuContainer.querySelector('.bbpr-display-all-btn');
-    const hideAllButton = menuContainer.querySelector('.bbpr-hide-all-btn');
-    if (e.target === menuButton || e.target === displayAllButton || e.target === hideAllButton) {
-        return;
+    if (menuContainer) {
+        const menuButton = menuContainer.querySelector('.bbpr-menu-btn');
+        const displayAllButton = menuContainer.querySelector('.bbpr-display-all-btn');
+        const hideAllButton = menuContainer.querySelector('.bbpr-hide-all-btn');
+        const isMenuClick = (
+            e.target === menuButton ||
+            e.target === displayAllButton ||
+            e.target === hideAllButton
+        );
+        if (isMenuClick) {
+            return;
+        }
+        menuContainer.classList.remove('bbpr-open');
     }
-    menuContainer.classList.remove('bbpr-open');
 }
 
 function displayAll() {
@@ -90,3 +97,10 @@ function waitForLoad() {
 }
 
 waitForLoad();
+
+const tabMenuDiffLink = document.querySelector('.pr-tab-links #pr-menu-diff');
+if (tabMenuDiffLink) {
+    tabMenuDiffLink.addEventListener('click', () => {
+        setTimeout(waitForLoad, 100);
+    });
+}
