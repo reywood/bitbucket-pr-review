@@ -87,20 +87,37 @@ function init() {
     });
 }
 
-function waitForLoad() {
-    const waitForElement = document.querySelector('#pullrequest-diff .main');
-    if (waitForElement) {
+function isDiffTabActive() {
+    const tabMenu = document.querySelector('.pr-tab-links');
+    if (!tabMenu) {
+        console.log('tab menu not found');
+        return false;
+    }
+    const activeTab = tabMenu.querySelector('.active-tab [data-tab-link-id]');
+    return !!activeTab && activeTab.dataset.tabLinkId === 'diff';
+}
+
+function waitForDiffLoad() {
+    if (!isDiffTabActive()) {
+        return;
+    }
+
+    const isDiffDomLoaded = !!document.querySelector('#pullrequest-diff .main');
+    if (isDiffDomLoaded) {
         init();
     } else {
-        setTimeout(waitForLoad, 100);
+        setTimeout(waitForDiffLoad, 100);
     }
 }
 
-waitForLoad();
-
-const tabMenuDiffLink = document.querySelector('.pr-tab-links #pr-menu-diff');
-if (tabMenuDiffLink) {
-    tabMenuDiffLink.addEventListener('click', () => {
-        setTimeout(waitForLoad, 100);
-    });
+function addDiffTabClickHandler() {
+    const tabMenuDiffLink = document.querySelector('.pr-tab-links #pr-menu-diff');
+    if (tabMenuDiffLink) {
+        tabMenuDiffLink.addEventListener('click', () => {
+            setTimeout(waitForDiffLoad, 100);
+        });
+    }
 }
+
+waitForDiffLoad();
+addDiffTabClickHandler();
