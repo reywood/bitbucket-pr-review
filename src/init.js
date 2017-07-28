@@ -68,22 +68,43 @@ function initHelperMenu() {
     pullRequestDiff.insertBefore(menuContainer, pullRequestDiff.querySelector('#compare'));
 }
 
-function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count) {
+function createPRToolbarHelperButtonDom() {
+    const buttonContainer = document.createElement('div');
+    buttonContainer.id = 'bbpr-toolbar-menu';
+    buttonContainer.className = 'bbpr-toolbar-menu';
+    buttonContainer.innerHTML = `
+        <button class="bbpr-display-all-btn">Display all reviewed diffs</button>
+    `;
+    return buttonContainer;
+}
+
+function initPRToolbarHelperButton() {
+    const prToolbar = document.getElementById('pr-toolbar');
+    const helperButtonContainer = createPRToolbarHelperButtonDom();
+    helperButtonContainer.querySelector('button').addEventListener('click', displayAll);
+    prToolbar.insertBefore(helperButtonContainer, prToolbar.firstChild);
+}
+
+function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, optionalCount) {
+    const count = optionalCount || 0;
     fileDiff.updateDisplay();
     if (count < 5) {
-        setTimeout(() => { repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count + 1); }, 100);
+        setTimeout(() => {
+            repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count + 1);
+        }, 100);
     }
 }
 
 function init() {
     initHelperMenu();
+    initPRToolbarHelperButton();
 
     const fileDiffs = Array.from(document.querySelectorAll('#changeset-diff .bb-udiff'))
         .map(section => new FileDiff(section));
 
     fileDiffs.forEach((fileDiff) => {
         fileDiff.initUI();
-        repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, 0);
+        repeatInitUIToWorkAroundCommentLoadIssue(fileDiff);
     });
 }
 
