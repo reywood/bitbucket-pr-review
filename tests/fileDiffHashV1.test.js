@@ -13,7 +13,18 @@ describe('FileDiffHashV1', function () {
         it('should serialize diff lines', function it() {
             const fileDiffHash = new FileDiffHashV1(new FileDiff(diffElement));
 
-            const expected = 'udiff-line common\n1,1\na\nudiff-line deletion\n2,undefined\n b \nudiff-line common\n3,2\n  c  \nudiff-line addition\nundefined,3\n   d   ';
+            const expected = 'udiff-line common\n' +
+                             '1,1\n' +
+                             'a\n' +
+                             'udiff-line deletion\n' +
+                             '2,undefined\n' +
+                             ' b \n' +
+                             'udiff-line common\n' +
+                             '3,2\n' +
+                             '  c  \n' +
+                             'udiff-line addition\n' +
+                             'undefined,3\n' +
+                             '   d   ';
             chai.expect(fileDiffHash.serializeDiffLines()).to.equal(expected);
         });
     });
@@ -22,7 +33,21 @@ describe('FileDiffHashV1', function () {
         it('should serialize comments', function it() {
             const fileDiffHash = new FileDiffHashV1(new FileDiff(diffElement));
 
-            const expected = 'comment-10001\nJane Doe\n\n                                                This is a test\n                                            \n2017-01-01T12:00:00-07:00\ncomment-10003\nAmy Clark\n\n                                                This is a reply\n                                            \n2017-01-01T12:02:00-07:00\ncomment-10002\nJohn Smith\n\n                                                 This is another test \n                                            \n2017-01-01T12:01:00-07:00';
+            const expected = 'comment-10001\n' +
+                             'Jane Doe\n\n' +
+                             '                                                This is a test\n' +
+                             '                                            \n' +
+                             '2017-01-01T12:00:00-07:00\n' +
+                             'comment-10003\n' +
+                             'Amy Clark\n\n' +
+                             '                                                This is a reply\n' +
+                             '                                            \n' +
+                             '2017-01-01T12:02:00-07:00\n' +
+                             'comment-10002\n' +
+                             'John Smith\n\n' +
+                             '                                                 This is another test \n' +
+                             '                                            \n' +
+                             '2017-01-01T12:01:00-07:00';
             chai.expect(fileDiffHash.serializeComments()).to.equal(expected);
         });
     });

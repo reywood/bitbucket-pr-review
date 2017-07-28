@@ -9,6 +9,11 @@ describe('FileDiff', function () {
     diffDomElementBuilder.addComment('10002', 'John Smith', ' This is another test ', '2017-01-01T12:01:00-07:00');
     const diffElement = diffDomElementBuilder.build();
 
+    beforeEach(function () {
+        chrome.storage.local.reset();
+        chrome.storage.sync.reset();
+    });
+
     describe('.hasBeenReviewed()', function () {
         it('should indicate file has not been reviewed', function () {
             const fileDiff = new FileDiff(diffElement);
@@ -18,26 +23,46 @@ describe('FileDiff', function () {
             });
         });
 
-        it('should indicate file has been reviewed with v2 hash', function () {
+        it('should indicate file has been reviewed with v2 hash if value stored in local storage', function () {
             const fileDiff = new FileDiff(diffElement);
             const hashV2 = new FileDiffHashV2(fileDiff);
 
-            return hashV2.hash().then((hash) => {
-                chrome.storage.sync.set({ 'jane-doe/my-repo::master::pr100::path/to/file': hash }, () => {});
-            }).then(() => fileDiff.hasBeenReviewed()).then((reviewed) => {
-                chai.expect(reviewed).to.be.true;
-            });
+            return hashV2.hash()
+                .then((hash) => {
+                    chrome.storage.local.set({ 'jane-doe/my-repo::master::pr100::path/to/file': hash }, () => {});
+                })
+                .then(() => fileDiff.hasBeenReviewed())
+                .then((reviewed) => {
+                    chai.expect(reviewed).to.be.true;
+                });
+        });
+
+        it('should indicate file has been reviewed with v2 hash if value stored in sync storage', function () {
+            const fileDiff = new FileDiff(diffElement);
+            const hashV2 = new FileDiffHashV2(fileDiff);
+
+            return hashV2.hash()
+                .then((hash) => {
+                    chrome.storage.sync.set({ 'jane-doe/my-repo::master::pr100::path/to/file': hash }, () => {});
+                })
+                .then(() => fileDiff.hasBeenReviewed())
+                .then((reviewed) => {
+                    chai.expect(reviewed).to.be.true;
+                });
         });
 
         it('should indicate file has been reviewed with v1 hash', function () {
             const fileDiff = new FileDiff(diffElement);
             const hashV1 = new FileDiffHashV1(fileDiff);
 
-            return hashV1.hash().then((hash) => {
-                chrome.storage.sync.set({ 'jane-doe/my-repo::master::pr100::path/to/file': hash }, () => {});
-            }).then(() => fileDiff.hasBeenReviewed()).then((reviewed) => {
-                chai.expect(reviewed).to.be.true;
-            });
+            return hashV1.hash()
+                .then((hash) => {
+                    chrome.storage.local.set({ 'jane-doe/my-repo::master::pr100::path/to/file': hash }, () => {});
+                })
+                .then(() => fileDiff.hasBeenReviewed())
+                .then((reviewed) => {
+                    chai.expect(reviewed).to.be.true;
+                });
         });
     });
 });

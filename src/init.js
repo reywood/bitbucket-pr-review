@@ -9,6 +9,7 @@ function createHelperMenuDom() {
         <ul class="bbpr-menu-items">
             <li><button class="bbpr-display-all-btn">Display all reviewed diffs</button></li>
             <li><button class="bbpr-hide-all-btn">Hide all reviewed diffs</button></li>
+            <li><button class="bbpr-mark-all">Mark all files as reviewed</button></li>
         </ul>
     `;
     return menuContainer;
