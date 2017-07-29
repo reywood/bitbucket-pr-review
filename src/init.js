@@ -10,55 +10,73 @@ function createHelperMenuDom() {
             <li><button class="bbpr-display-all-btn">Display all reviewed diffs</button></li>
             <li><button class="bbpr-hide-all-btn">Hide all reviewed diffs</button></li>
             <li><button class="bbpr-mark-all">Mark all files as reviewed</button></li>
+            <li><button class="bbpr-unmark-all">Mark all files as unreviewed</button></li>
         </ul>
     `;
     return menuContainer;
 }
 
-function openMenu() {
+function getAllFileDiffs() {
+    return Array.from(document.querySelectorAll('#changeset-diff .bb-udiff'))
+        .map(section => new FileDiff(section));
+}
+
+function toggleMenu() {
     const menuContainer = document.getElementById('bbpr-menu');
     menuContainer.classList.toggle('bbpr-open');
+}
+
+function closeMenu() {
+    const menuContainer = document.getElementById('bbpr-menu');
+    menuContainer.classList.remove('bbpr-open');
 }
 
 function closeMenuOnBodyClick(e) {
     const menuContainer = document.getElementById('bbpr-menu');
     if (menuContainer) {
-        const menuButton = menuContainer.querySelector('.bbpr-menu-btn');
-        const displayAllButton = menuContainer.querySelector('.bbpr-display-all-btn');
-        const hideAllButton = menuContainer.querySelector('.bbpr-hide-all-btn');
-        const isMenuClick = (
-            e.target === menuButton ||
-            e.target === displayAllButton ||
-            e.target === hideAllButton
-        );
-        if (isMenuClick) {
-            return;
+        const allMenuButtons = Array.from(menuContainer.querySelectorAll('button'));
+        const isMenuClick = allMenuButtons.some(btn => btn === e.target);
+        if (!isMenuClick) {
+            closeMenu();
         }
-        menuContainer.classList.remove('bbpr-open');
     }
 }
 
 function displayAll() {
     const pullRequestDiff = document.getElementById('pullrequest-diff');
-    const menuContainer = document.getElementById('bbpr-menu');
     pullRequestDiff.classList.add('bbpr-open-all-diffs');
-    menuContainer.classList.remove('bbpr-open');
+    closeMenu();
 }
 
 function hideAll() {
     const pullRequestDiff = document.getElementById('pullrequest-diff');
-    const menuContainer = document.getElementById('bbpr-menu');
     pullRequestDiff.classList.remove('bbpr-open-all-diffs');
-    menuContainer.classList.remove('bbpr-open');
+    closeMenu();
+}
+
+function setAllToReviewed() {
+    getAllFileDiffs().forEach(fileDiff => fileDiff.setReviewed());
+    closeMenu();
+}
+
+function setAllToUnreviewed() {
+    getAllFileDiffs().forEach(fileDiff => fileDiff.setUnreviewed());
+    closeMenu();
 }
 
 function addHelperMenuEventListeners(menuContainer) {
     const menuButton = menuContainer.querySelector('.bbpr-menu-btn');
     const displayAllButton = menuContainer.querySelector('.bbpr-display-all-btn');
     const hideAllButton = menuContainer.querySelector('.bbpr-hide-all-btn');
-    menuButton.addEventListener('click', openMenu);
+    const markAllButton = menuContainer.querySelector('.bbpr-mark-all');
+    const unmarkAllButton = menuContainer.querySelector('.bbpr-unmark-all');
+
+    menuButton.addEventListener('click', toggleMenu);
     displayAllButton.addEventListener('click', displayAll);
     hideAllButton.addEventListener('click', hideAll);
+    markAllButton.addEventListener('click', setAllToReviewed);
+    unmarkAllButton.addEventListener('click', setAllToUnreviewed);
+
     document.body.addEventListener('click', closeMenuOnBodyClick);
 }
 
@@ -79,9 +97,7 @@ function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count) {
 function init() {
     initHelperMenu();
 
-    const fileDiffs = Array.from(document.querySelectorAll('#changeset-diff .bb-udiff'))
-        .map(section => new FileDiff(section));
-
+    const fileDiffs = getAllFileDiffs();
     fileDiffs.forEach((fileDiff) => {
         fileDiff.initUI();
         repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, 0);
