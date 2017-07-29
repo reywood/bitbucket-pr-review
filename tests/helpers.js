@@ -1,25 +1,33 @@
 const diffTemplate = Handlebars.compile(document.getElementById('diff-template').innerHTML);
 
-const items = Symbol('items');
-window.chrome = window.chrome || {};
-window.chrome.storage = {
-    sync: {
+function createStorageInterface(storageClass) {
+    const items = Symbol(`${storageClass}Items`);
+    return {
         [items]: {},
-        get: function get(key, callback) {
-            console.log('getting: ', { [key]: this[items][key] });
+        get(key, callback) {
+            console.log(`getting from ${storageClass}: `, { [key]: this[items][key] });
             callback({ [key]: this[items][key] });
         },
-        set: function set(newItems, callback) {
-            console.log('setting: ', newItems);
+        set(newItems, callback) {
+            console.log(`setting to ${storageClass}: `, newItems);
             Object.assign(this[items], newItems);
             callback();
         },
-        remove: function remove(key, callback) {
-            console.log(`removing: ${key}`);
+        remove(key, callback) {
+            console.log(`removing from ${storageClass}: ${key}`);
             delete this[items][key];
             callback();
         },
-    },
+        reset() {
+            this[items] = {};
+        },
+    };
+}
+
+window.chrome = window.chrome || {};
+window.chrome.storage = {
+    sync: createStorageInterface('sync'),
+    local: createStorageInterface('local'),
 };
 
 class DiffDomElementBuilder {

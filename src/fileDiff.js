@@ -45,6 +45,18 @@ class FileDiff { // eslint-disable-line no-unused-vars
         }
     }
 
+    async setReviewed() {
+        const hash = await this.hash();
+        await DataStore.setReviewed(this.filepath, true, hash);
+        this.updateDisplay();
+    }
+
+    async setUnreviewed() {
+        const hash = await this.hash();
+        await DataStore.setReviewed(this.filepath, false, hash);
+        this.updateDisplay();
+    }
+
     [createButton]() {
         const btn = document.createElement('button');
         btn.classList.add('aui-button', 'aui-button-light');
@@ -76,10 +88,12 @@ class FileDiff { // eslint-disable-line no-unused-vars
     }
 
     async [handleButtonClick]() {
-        const hash = await this.hash();
         const reviewedAccordingToUi = this[summaryListElement].classList.contains('bbpr-reviewed');
-        await DataStore.setReviewed(this.filepath, !reviewedAccordingToUi, hash);
-        this.updateDisplay();
+        if (reviewedAccordingToUi) {
+            this.setUnreviewed();
+        } else {
+            this.setReviewed();
+        }
     }
 
     get [summaryListElement]() {

@@ -1,5 +1,6 @@
 {
     "globals": {
+        "beforeEach": true,
         "describe": true,
         "it": true,
         "chai": true,
