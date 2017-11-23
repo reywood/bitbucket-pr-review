@@ -148,6 +148,7 @@ ul.commit-files-summary li.bbpr-reviewed::after,
                 opacity: 0;
                 max-height: 0;
                 overflow: hidden;
+                display: none;
             }
         }
     }

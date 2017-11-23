@@ -99,4 +99,5 @@ ul.commit-files-summary li.bbpr-reviewed::after,
   #pullrequest-diff:not(.bbpr-open-all-diffs) .bb-udiff.bbpr-reviewed .diff-content-container {
     opacity: 0;
     max-height: 0;
-    overflow: hidden; }
+    overflow: hidden; 
+    display: none; }
