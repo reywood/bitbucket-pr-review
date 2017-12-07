@@ -120,11 +120,6 @@ ul.commit-files-summary li.bbpr-reviewed::after,
         display: none;
     }
 
-    .diff-content-container {
-        max-height: 1000em;
-        transition: max-height .3s cubic-bezier(0, .99, 0, 1), opacity .3s linear;
-    }
-
     &.bbpr-reviewed {
         .bbpr-buttons button .bbpr-not-done {
             display: none;
@@ -145,9 +140,6 @@ ul.commit-files-summary li.bbpr-reviewed::after,
             }
 
             .diff-content-container {
-                opacity: 0;
-                max-height: 0;
-                overflow: hidden;
                 display: none;
             }
         }

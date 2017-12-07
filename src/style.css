@@ -81,10 +81,6 @@ ul.commit-files-summary li.bbpr-reviewed::after,
 .bb-udiff .bbpr-buttons button .bbpr-done {
   display: none; }
 
-.bb-udiff .diff-content-container {
-  max-height: 1000em;
-  transition: max-height 0.3s cubic-bezier(0, 0.99, 0, 1), opacity 0.3s linear; }
-
 .bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-not-done {
   display: none; }
 
@@ -97,7 +93,4 @@ ul.commit-files-summary li.bbpr-reviewed::after,
     border-bottom: 1px solid #ccc;
     border-radius: 5px; }
   #pullrequest-diff:not(.bbpr-open-all-diffs) .bb-udiff.bbpr-reviewed .diff-content-container {
-    opacity: 0;
-    max-height: 0;
-    overflow: hidden; 
     display: none; }
