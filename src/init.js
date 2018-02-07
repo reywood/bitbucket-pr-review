@@ -94,6 +94,55 @@ function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count = 0) {
     }
 }
 
+function waitForFileSectionLoad(fileSectionSelector) {
+	const fileDiffDom = document.querySelector(fileSectionSelector);
+	if (fileDiffDom) {
+		const alreadyHasButton = !!fileDiffDom.querySelector('.bbpr-buttons');
+		if (!alreadyHasButton) {
+			const fileDiff = new FileDiff(fileDiffDom);
+			fileDiff.initUI();
+			repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, 0);	
+		}
+	} else {
+		setTimeout(waitForFileSectionLoad, 100, fileSectionSelector)
+	}
+}
+
+function initAnotherChanceFiles(anotherChanceFiles) {
+	anotherChanceFiles.forEach((file) => {
+		const fileSection = file.closest('.bb-udiff');
+		const fileSectionSelector = '#changeset-diff .bb-udiff[data-path="' + fileSection.dataset.identifier + '"]'
+		file.addEventListener('click', function() {
+			waitForFileSectionLoad(fileSectionSelector);
+		});
+		const fileLink = document.querySelector('#commit-files-summary li[data-file-identifier="' + fileSection.dataset.identifier + '"] a');
+		if (fileLink) {
+			fileLink.addEventListener('click', function() {
+				waitForFileSectionLoad(fileSectionSelector);
+			});
+		}
+		(async() => {
+			if (await DataStore.hasEverBeenReviewed(fileSection.dataset.identifier)) {
+				file.click();
+			}
+		})();
+	})
+}
+
+function waitForAnotherChanceFilesLoad(tries, previousAttemptFileCount) {
+	const anotherChanceFiles = document.querySelectorAll('.load-diff.try-again');
+	if (anotherChanceFiles.length === previousAttemptFileCount) {
+		tries = tries + 1;
+	} else {
+		tries = 0;
+	}
+	if (tries > 3) {
+		initAnotherChanceFiles(anotherChanceFiles);
+	} else {
+		setTimeout(waitForAnotherChanceFilesLoad, 100, tries, anotherChanceFiles.length);
+	}
+}
+
 function init() {
     initHelperMenu();
 
@@ -102,6 +151,15 @@ function init() {
         fileDiff.initUI();
         repeatInitUIToWorkAroundCommentLoadIssue(fileDiff);
     });
+	
+	waitForAnotherChanceFilesLoad(0, 0);
+	
+	if (window.location.hash.indexOf('#chg-') >= 0) {
+		var identifier = window.location.hash.substring(5);
+		
+		const fileSectionSelector = '#changeset-diff .bb-udiff[data-path="' + identifier + '"]'
+		waitForFileSectionLoad(fileSectionSelector);
+	}
 }
 
 function isDiffTabActive() {
