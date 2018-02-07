@@ -16,6 +16,12 @@ class DataStore { // eslint-disable-line no-unused-vars
         return DataStore[remove](key);
     }
 
+    static async hasEverBeenReviewed(filepath) {
+        const key = DataStore[getFilePathKey](filepath);
+
+        return !!(await DataStore[get](key));
+    }
+
     static async hasBeenReviewed(filepath, hash) {
         const key = DataStore[getFilePathKey](filepath);
 
