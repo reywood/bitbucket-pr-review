@@ -87,7 +87,7 @@ function initHelperMenu() {
     pullRequestDiff.insertBefore(menuContainer, pullRequestDiff.querySelector('#compare'));
 }
 
-function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count) {
+function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count = 0) {
     fileDiff.updateDisplay();
     if (count < 5) {
         setTimeout(() => { repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count + 1); }, 100);
@@ -100,7 +100,7 @@ function init() {
     const fileDiffs = getAllFileDiffs();
     fileDiffs.forEach((fileDiff) => {
         fileDiff.initUI();
-        repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, 0);
+        repeatInitUIToWorkAroundCommentLoadIssue(fileDiff);
     });
 }
 
