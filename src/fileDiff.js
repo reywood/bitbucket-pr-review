@@ -8,7 +8,7 @@ const summaryListElement = Symbol('summaryListElement');
 class FileDiff { // eslint-disable-line no-unused-vars
     constructor(sectionElement) {
         this.element = sectionElement;
-        this.filepath = this.element.dataset.path;
+        this.filepath = this.element.dataset.identifier;
     }
 
     async hash() {

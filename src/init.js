@@ -111,7 +111,7 @@ function waitForFileSectionLoad(fileSectionSelector) {
 function initAnotherChanceFiles(anotherChanceFiles) {
     anotherChanceFiles.forEach((file) => {
         const fileSection = file.closest('.bb-udiff');
-        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path="${fileSection.dataset.identifier}"]`;
+        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path][data-identifier="${fileSection.dataset.identifier}"]`;
         file.addEventListener('click', () => {
             waitForFileSectionLoad(fileSectionSelector);
         });
@@ -158,7 +158,7 @@ function init() {
     if (window.location.hash.indexOf('#chg-') >= 0) {
         const identifier = window.location.hash.substring(5);
 
-        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path="${identifier}"]`;
+        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path][data-identifier="${identifier}"]`;
         waitForFileSectionLoad(fileSectionSelector);
     }
 }
