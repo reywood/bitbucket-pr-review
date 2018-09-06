@@ -7,6 +7,17 @@ const remove = Symbol('remove');
 const STORAGE_CLASS_LOCAL = 'local';
 const STORAGE_CLASS_SYNC = 'sync';
 
+function createStorageCallback(reject, resolve, returnValueGetter) {
+    return function storageCallback(...args) {
+        const lastRuntimeError = chrome.runtime && chrome.runtime.lastError;
+        if (lastRuntimeError) {
+            reject(lastRuntimeError);
+        } else {
+            resolve(returnValueGetter && returnValueGetter(...args));
+        }
+    };
+}
+
 class DataStore { // eslint-disable-line no-unused-vars
     static async setReviewed(filepath, reviewed, hash) {
         const key = DataStore[getFilePathKey](filepath);
@@ -49,13 +60,10 @@ class DataStore { // eslint-disable-line no-unused-vars
     static [getFromStorageClass](storageClass, key) {
         return new Promise((resolve, reject) => {
             try {
-                chrome.storage[storageClass].get(key, (items) => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve(items[key]);
-                    }
-                });
+                chrome.storage[storageClass].get(
+                    key,
+                    createStorageCallback(reject, resolve, items => items[key]),
+                );
             } catch (error) {
                 reject(error);
             }
@@ -65,13 +73,10 @@ class DataStore { // eslint-disable-line no-unused-vars
     static [set](key, value) {
         return new Promise((resolve, reject) => {
             try {
-                chrome.storage[STORAGE_CLASS_LOCAL].set({ [key]: value }, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve();
-                    }
-                });
+                chrome.storage[STORAGE_CLASS_LOCAL].set(
+                    { [key]: value },
+                    createStorageCallback(reject, resolve),
+                );
             } catch (error) {
                 reject(error);
             }
@@ -81,25 +86,19 @@ class DataStore { // eslint-disable-line no-unused-vars
     static [remove](key) {
         return new Promise((resolve, reject) => {
             try {
-                chrome.storage[STORAGE_CLASS_LOCAL].remove(key, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve();
-                    }
-                });
+                chrome.storage[STORAGE_CLASS_LOCAL].remove(
+                    key,
+                    createStorageCallback(reject, resolve),
+                );
             } catch (error) {
                 reject(error);
             }
         }).then(() => new Promise((resolve, reject) => {
             try {
-                chrome.storage[STORAGE_CLASS_SYNC].remove(key, () => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve();
-                    }
-                });
+                chrome.storage[STORAGE_CLASS_SYNC].remove(
+                    key,
+                    createStorageCallback(reject, resolve),
+                );
             } catch (error) {
                 reject(error);
             }
