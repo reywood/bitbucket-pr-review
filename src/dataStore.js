@@ -48,45 +48,61 @@ class DataStore { // eslint-disable-line no-unused-vars
 
     static [getFromStorageClass](storageClass, key) {
         return new Promise((resolve, reject) => {
-            chrome.storage[storageClass].get(key, (items) => {
-                if (chrome.runtime.lastError) {
-                    reject(chrome.runtime.lastError);
-                } else {
-                    resolve(items[key]);
-                }
-            });
+            try {
+                chrome.storage[storageClass].get(key, (items) => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                    } else {
+                        resolve(items[key]);
+                    }
+                });
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
     static [set](key, value) {
         return new Promise((resolve, reject) => {
-            chrome.storage[STORAGE_CLASS_LOCAL].set({ [key]: value }, () => {
-                if (chrome.runtime.lastError) {
-                    reject(chrome.runtime.lastError);
-                } else {
-                    resolve();
-                }
-            });
+            try {
+                chrome.storage[STORAGE_CLASS_LOCAL].set({ [key]: value }, () => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                    } else {
+                        resolve();
+                    }
+                });
+            } catch (error) {
+                reject(error);
+            }
         });
     }
 
     static [remove](key) {
         return new Promise((resolve, reject) => {
-            chrome.storage[STORAGE_CLASS_LOCAL].remove(key, () => {
-                if (chrome.runtime.lastError) {
-                    reject(chrome.runtime.lastError);
-                } else {
-                    resolve();
-                }
-            });
+            try {
+                chrome.storage[STORAGE_CLASS_LOCAL].remove(key, () => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                    } else {
+                        resolve();
+                    }
+                });
+            } catch (error) {
+                reject(error);
+            }
         }).then(() => new Promise((resolve, reject) => {
-            chrome.storage[STORAGE_CLASS_SYNC].remove(key, () => {
-                if (chrome.runtime.lastError) {
-                    reject(chrome.runtime.lastError);
-                } else {
-                    resolve();
-                }
-            });
+            try {
+                chrome.storage[STORAGE_CLASS_SYNC].remove(key, () => {
+                    if (chrome.runtime.lastError) {
+                        reject(chrome.runtime.lastError);
+                    } else {
+                        resolve();
+                    }
+                });
+            } catch (error) {
+                reject(error);
+            }
         }));
     }
 }
