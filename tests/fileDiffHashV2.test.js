@@ -1,13 +1,22 @@
 describe('FileDiffHashV2', function () {
-    const diffDomElementBuilder = new DiffDomElementBuilder('path/to/file');
-    diffDomElementBuilder.addCommonDiffLine('a');
-    diffDomElementBuilder.addDeletionDiffLine(' b ');
-    diffDomElementBuilder.addCommonDiffLine('  c  ', true);
-    diffDomElementBuilder.addAdditionDiffLine('   d   ');
-    diffDomElementBuilder.addComment('10001', 'Jane Doe', 'This is a test', '2017-01-01T12:00:00-07:00');
-    diffDomElementBuilder.addComment('10003', 'Amy Clark', 'This is a reply', '2017-01-01T12:02:00-07:00');
-    diffDomElementBuilder.addComment('10002', 'John Smith', ' This is another test ', '2017-01-01T12:01:00-07:00');
-    const diffElement = diffDomElementBuilder.build();
+    let diffElement;
+    let diffDomElementBuilder;
+
+    beforeEach(function () {
+        diffDomElementBuilder = new DiffDomElementBuilder('path/to/file');
+        diffDomElementBuilder.addCommonDiffLine('a');
+        diffDomElementBuilder.addDeletionDiffLine(' b ');
+        diffDomElementBuilder.addCommonDiffLine('  c  ', true);
+        diffDomElementBuilder.addAdditionDiffLine('   d   ');
+        diffDomElementBuilder.addComment('10001', 'Jane Doe', 'This is a test', '2017-01-01T12:00:00-07:00');
+        diffDomElementBuilder.addComment('10003', 'Amy Clark', 'This is a reply', '2017-01-01T12:02:00-07:00');
+        diffDomElementBuilder.addComment('10002', 'John Smith', ' This is another test ', '2017-01-01T12:01:00-07:00');
+        diffElement = diffDomElementBuilder.build();
+    });
+
+    afterEach(function () {
+        DiffDomElementBuilder.cleanUp();
+    });
 
     describe('.serializeDiffLines()', function () {
         it('should serialize diff lines', function it() {
