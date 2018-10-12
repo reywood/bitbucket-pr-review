@@ -97,6 +97,8 @@ class FileDiff { // eslint-disable-line no-unused-vars
     }
 
     get [summaryListElement]() {
-        return document.querySelector(`ul#commit-files-summary li[data-file-identifier="${this.filepath}"]`);
+        const encodedFilePath = this.filepath.split('/').map(token => encodeURIComponent(token)).join('/');
+
+        return document.querySelector(`ul#commit-files-summary li[data-file-identifier="${encodedFilePath}"]`);
     }
 }

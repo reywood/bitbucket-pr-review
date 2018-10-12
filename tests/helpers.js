@@ -31,8 +31,9 @@ window.chrome.storage = {
 };
 
 class DiffDomElementBuilder {
-    constructor(filePath) {
+    constructor(filePath, encodedFilePath) {
         this.filePath = filePath;
+        this.encodedFilePath = encodedFilePath || escape(filePath);
         this.diffLines = [];
         this.currentFnum = 0;
         this.currentTnum = 0;
@@ -80,11 +81,17 @@ class DiffDomElementBuilder {
     build() {
         const rendered = diffTemplate({
             filePath: this.filePath,
+            encodedFilePath: this.encodedFilePath,
             diffLines: this.diffLines,
             comments: this.comments,
         });
         const sandbox = document.getElementById('dom-sandbox');
         sandbox.innerHTML = rendered;
         return sandbox.querySelector('.bb-udiff');
+    }
+
+    static cleanUp() {
+        const sandbox = document.getElementById('dom-sandbox');
+        sandbox.innerHTML = '';
     }
 }

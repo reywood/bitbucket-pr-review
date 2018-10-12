@@ -12,49 +12,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
 
     <script id="diff-template" type="text/x-handlebars-template">
-        <section class="bb-udiff" data-path="{{filePath}}">
-            <div class="diff-container">
-                <div class="heading"></div>
-                <div class="diff-content-container">
-                    <div class="refract-content-container">
-                        {{#each diffLines}}
-                            <div class="udiff-line {{type}}">
-                                <div class="gutter" id="L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}">
-                                    <a href="#add-comment" class="add-diff-comment add-line-comment" title="Add a comment to this line">
-                                        <span class="aui-icon aui-icon-small aui-iconfont-add-comment">Add a comment to this line</span>
-                                    </a>
-                                    <a class="line-numbers"{{#if fnum}} data-fnum="{{fnum}}"{{/if}}{{#if tnum}} data-tnum="{{tnum}}"{{/if}} href="#L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}"></a>
+        <div>
+            <ul class="commit-files-summary" id="commit-files-summary">
+                <li class="iterable-item file file-added" data-file-identifier="{{encodedFilePath}}">
+                    {{filePath}}
+                </li>
+            </ul>
+
+            <section class="bb-udiff" data-path="{{filePath}}" id="chg-{{filePath}}">
+                <div class="diff-container">
+                    <div class="heading"></div>
+                    <div class="diff-content-container">
+                        <div class="refract-content-container">
+                            {{#each diffLines}}
+                                <div class="udiff-line {{type}}">
+                                    <div class="gutter" id="L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}">
+                                        <a href="#add-comment" class="add-diff-comment add-line-comment" title="Add a comment to this line">
+                                            <span class="aui-icon aui-icon-small aui-iconfont-add-comment">Add a comment to this line</span>
+                                        </a>
+                                        <a class="line-numbers"{{#if fnum}} data-fnum="{{fnum}}"{{/if}}{{#if tnum}} data-tnum="{{tnum}}"{{/if}} href="#L{{../filePath}}{{#if fnum}}F{{fnum}}{{/if}}{{#if tnum}}T{{tnum}}{{/if}}"></a>
+                                    </div>
+                                    <pre class="source"><ins>{{source}}</ins></pre>
                                 </div>
-                                <pre class="source">{{source}}</pre>
+                            {{/each}}
+                            <div class="comment-thread-container">
+                                <ol class="comments-list">
+                                    {{#each comments}}
+                                        <li class="comment">
+                                            <article id="comment-{{id}}" data-comment-id="{{id}}" data-content="{{content}}">
+                                                <header>
+                                                    <a href="#" class="author">{{author}}</a>
+                                                </header>
+                                                <div class="wiki-content comment-content">
+                                                    <p>{{content}}</p>
+                                                </div>
+                                                <ul class="comment-actions">
+                                                    <li>
+                                                        <a class="permalink" href="#comment-{{id}}" title="Link directly to this comment">
+                                                            <time datetime="{{date}}" data-title="true" title="{{date}}">{{date}}</time>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </article>
+                                        </li>
+                                    {{/each}}
+                                </ol>
                             </div>
-                        {{/each}}
-                        <div class="comment-thread-container">
-                            <ol class="comments-list">
-                                {{#each comments}}
-                                    <li class="comment">
-                                        <article id="comment-{{id}}" data-comment-id="{{id}}" data-content="{{content}}">
-                                            <header>
-                                                <a href="#" class="author">{{author}}</a>
-                                            </header>
-                                            <div class="wiki-content comment-content">
-                                                <p>{{content}}</p>
-                                            </div>
-                                            <ul class="comment-actions">
-                                                <li>
-                                                    <a class="permalink" href="#comment-{{id}}" title="Link directly to this comment">
-                                                        <time datetime="{{date}}" data-title="true" title="{{date}}">{{date}}</time>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </article>
-                                    </li>
-                                {{/each}}
-                            </ol>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </script>
 
     <div id="pullrequest" data-compare-dest-value="jane-doe/my-repo::master" data-local-id="100">
