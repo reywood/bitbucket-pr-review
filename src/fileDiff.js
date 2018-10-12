@@ -9,6 +9,7 @@ class FileDiff { // eslint-disable-line no-unused-vars
     constructor(sectionElement) {
         this.element = sectionElement;
         this.filepath = this.element.dataset.path;
+        this.fileIdentifier = this.element.dataset.identifier;
     }
 
     async hash() {
@@ -97,8 +98,6 @@ class FileDiff { // eslint-disable-line no-unused-vars
     }
 
     get [summaryListElement]() {
-        const encodedFilePath = this.filepath.split('/').map(token => encodeURIComponent(token)).join('/');
-
-        return document.querySelector(`ul#commit-files-summary li[data-file-identifier="${encodedFilePath}"]`);
+        return document.querySelector(`ul#commit-files-summary li[data-file-identifier="${this.fileIdentifier}"]`);
     }
 }
