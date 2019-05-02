@@ -39,7 +39,7 @@ class FileDiffHashV2 { // eslint-disable-line no-unused-vars
         const parsedComments = Array.from(this.fileDiff.element.querySelectorAll('.diff-content-container .comment article'))
             .map(comment => [
                 comment.dataset.commentId,
-                comment.querySelector('.author').textContent,
+                comment.querySelector('.author, .author-name').textContent,
                 comment.dataset.content.trim(),
                 comment.querySelector('time').getAttribute('datetime'),
             ])
@@ -84,7 +84,7 @@ class FileDiffHashV1 { // eslint-disable-line no-unused-vars
             .map((comment) => {
                 const parts = [
                     comment.id,
-                    comment.querySelector('.author').textContent,
+                    comment.querySelector('.author, .author-name').textContent,
                     comment.querySelector('.comment-content').textContent,
                     comment.querySelector('time').getAttribute('datetime'),
                 ];
