@@ -81,11 +81,21 @@ ul.commit-files-summary li.bbpr-reviewed::after,
 .bb-udiff .bbpr-buttons button .bbpr-done {
   display: none; }
 
+.bb-udiff .bbpr-bottom-btn {
+  position: absolute;
+  bottom: .5em;
+  right: .5em; }
+  .bb-udiff .bbpr-bottom-btn .bbpr-done {
+    display: none; }
+
 .bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-not-done {
   display: none; }
 
 .bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-done {
   display: inline; }
+
+.bb-udiff.bbpr-reviewed .bbpr-bottom-btn {
+  display: none; }
 
 #pullrequest-diff:not(.bbpr-open-all-diffs) .bb-udiff.bbpr-reviewed {
   min-height: 0; }
