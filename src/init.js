@@ -1,3 +1,5 @@
+const DIFF_CSS_CLASSNAME = 'bb-udiff';
+
 function createHelperMenuDom() {
     const menuContainer = document.createElement('div');
     menuContainer.id = 'bbpr-menu';
@@ -17,8 +19,9 @@ function createHelperMenuDom() {
 }
 
 function getAllFileDiffs() {
-    return Array.from(document.querySelectorAll('#changeset-diff .bb-udiff'))
-        .map(section => new FileDiff(section));
+    const diffElements = Array.from(document.querySelectorAll(`#changeset-diff .${DIFF_CSS_CLASSNAME}`))
+        .filter(element => !element.querySelector('.load-diff.try-again'));
+    return diffElements.map(element => new FileDiff(element));
 }
 
 function toggleMenu() {
@@ -108,57 +111,26 @@ function waitForFileSectionLoad(fileSectionSelector) {
     }
 }
 
-function initAnotherChanceFiles(anotherChanceFiles) {
-    anotherChanceFiles.forEach((file) => {
-        const fileSection = file.closest('.bb-udiff');
-        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path][data-identifier="${fileSection.dataset.identifier}"]`;
-        file.addEventListener('click', () => {
-            waitForFileSectionLoad(fileSectionSelector);
-        });
-        const fileLinkSelector = `#commit-files-summary li[data-file-identifier="${fileSection.dataset.identifier}"] a`;
-        const fileLink = document.querySelector(fileLinkSelector);
-        if (fileLink) {
-            fileLink.addEventListener('click', () => {
-                waitForFileSectionLoad(fileSectionSelector);
-            });
-        }
-        (async () => {
-            if (await DataStore.hasEverBeenReviewed(fileSection.dataset.identifier)) {
-                file.click();
-            }
-        })();
-    });
+function getFileSectionSelector(identifier) {
+    return `#changeset-diff .${DIFF_CSS_CLASSNAME}[data-path][data-identifier="${identifier}"]`;
 }
 
-function waitForAnotherChanceFilesLoad(previousAttemptFileCount, tries = 0) {
-    const anotherChanceFiles = document.querySelectorAll('.load-diff.try-again');
-    const areSameNumberOfFilesAsLastTry = anotherChanceFiles.length === previousAttemptFileCount;
-    const triesWithCurrentCount = areSameNumberOfFilesAsLastTry ? tries + 1 : 0;
-
-    if (triesWithCurrentCount > 3) {
-        initAnotherChanceFiles(anotherChanceFiles);
-    } else {
-        setTimeout(() => {
-            waitForAnotherChanceFilesLoad(anotherChanceFiles.length, triesWithCurrentCount);
-        }, 100);
-    }
-}
-
-function init() {
-    initHelperMenu();
-
+const initIndividualFileDiffsUI = throttle(() => {
     const fileDiffs = getAllFileDiffs();
     fileDiffs.forEach((fileDiff) => {
         fileDiff.initUI();
         repeatInitUIToWorkAroundCommentLoadIssue(fileDiff);
     });
+}, 1000);
 
-    waitForAnotherChanceFilesLoad(0);
+function init() {
+    initHelperMenu();
+    initIndividualFileDiffsUI();
 
     if (window.location.hash.indexOf('#chg-') >= 0) {
         const identifier = window.location.hash.substring(5);
 
-        const fileSectionSelector = `#changeset-diff .bb-udiff[data-path][data-identifier="${identifier}"]`;
+        const fileSectionSelector = getFileSectionSelector(identifier);
         waitForFileSectionLoad(fileSectionSelector);
     }
 }
@@ -174,26 +146,39 @@ function isDiffTabActive() {
 }
 
 function waitForDiffLoad() {
-    if (!isDiffTabActive()) {
-        return;
-    }
+    const resolveWhenLoaded = (resolve) => {
+        const isDiffDomLoaded = !!document.querySelector('#pullrequest-diff .main');
+        if (isDiffDomLoaded) {
+            resolve();
+        } else {
+            setTimeout(() => resolveWhenLoaded(resolve), 100);
+        }
+    };
 
-    const isDiffDomLoaded = !!document.querySelector('#pullrequest-diff .main');
-    if (isDiffDomLoaded) {
-        init();
-    } else {
-        setTimeout(waitForDiffLoad, 100);
-    }
+    return new Promise((resolve) => {
+        if (!isDiffTabActive()) {
+            resolve();
+        }
+        resolveWhenLoaded(resolve);
+    });
 }
 
-function addDiffTabClickHandler() {
-    const tabMenuDiffLink = document.querySelector('.pr-tab-links #pr-menu-diff');
-    if (tabMenuDiffLink) {
-        tabMenuDiffLink.addEventListener('click', () => {
-            setTimeout(waitForDiffLoad, 100);
-        });
-    }
+function watchForDiffTabContentChanges() {
+    const mutationObserver = new MutationObserver((mutations) => {
+        const wereNodesAdded = mutations
+            .some(mutation => !!mutation.addedNodes && mutation.addedNodes.length > 0);
+        if (wereNodesAdded && isDiffTabActive()) {
+            initIndividualFileDiffsUI();
+        }
+    });
+    const tabContentsNode = document.querySelector('#pr-tab-content-wrapper');
+    mutationObserver.observe(tabContentsNode, { childList: true, subtree: true });
 }
 
-waitForDiffLoad();
-addDiffTabClickHandler();
+async function main() {
+    await waitForDiffLoad();
+    init();
+    watchForDiffTabContentChanges();
+}
+
+main();
