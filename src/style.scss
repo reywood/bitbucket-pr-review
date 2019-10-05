@@ -120,6 +120,16 @@ ul.commit-files-summary li.bbpr-reviewed::after,
         display: none;
     }
 
+    .bbpr-bottom-btn {
+        position: absolute;
+        bottom: .5em;
+        right: .5em;
+
+        .bbpr-done {
+            display: none;
+        }
+    }
+
     &.bbpr-reviewed {
         .bbpr-buttons button .bbpr-not-done {
             display: none;
@@ -127,6 +137,10 @@ ul.commit-files-summary li.bbpr-reviewed::after,
 
         .bbpr-buttons button .bbpr-done {
             display: inline;
+        }
+
+        .bbpr-bottom-btn {
+            display: none;
         }
     }
 

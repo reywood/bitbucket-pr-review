@@ -1,9 +1,14 @@
 const createButton = Symbol('createButton');
-const attachButton = Symbol('attachButton');
-const handleButtonClick = Symbol('handleButtonClick');
+const createTopButton = Symbol('createTopButton');
+const createBottomButton = Symbol('createBottomButton');
+const attachTopButton = Symbol('attachTopButton');
+const attachBottomButton = Symbol('attachBottomButton');
+const handleTopButtonClick = Symbol('handleTopButtonClick');
+const handleBottomButtonClick = Symbol('handleBottomButtonClick');
 const showDiffContents = Symbol('showDiffContents');
 const hideDiffContents = Symbol('hideDiffContents');
 const summaryListElement = Symbol('summaryListElement');
+const shouldShowBottomButton = Symbol('shouldShowBottomButton');
 
 class FileDiff { // eslint-disable-line no-unused-vars
     constructor(sectionElement) {
@@ -22,8 +27,12 @@ class FileDiff { // eslint-disable-line no-unused-vars
 
     initUI() {
         if (!this.isUIInitialized) {
-            const reviewedBtn = this[createButton]();
-            this[attachButton](reviewedBtn);
+            const topReviewedBtn = this[createTopButton]();
+            this[attachTopButton](topReviewedBtn);
+            if (this[shouldShowBottomButton]()) {
+                const bottomReviewedBtn = this[createBottomButton]();
+                this[attachBottomButton](bottomReviewedBtn);
+            }
         }
         this.updateDisplay();
     }
@@ -64,26 +73,50 @@ class FileDiff { // eslint-disable-line no-unused-vars
         this.updateDisplay();
     }
 
-    [createButton]() {
+    [createTopButton]() {
+        const btn = FileDiff[createButton]();
+        btn.addEventListener('click', () => {
+            this[handleTopButtonClick]();
+        });
+        return btn;
+    }
+
+    [shouldShowBottomButton]() {
+        const sectionHeight = parseInt(this.element.offsetHeight, 10);
+        const windowHeight = window.innerHeight;
+        return sectionHeight > Math.min(300, windowHeight);
+    }
+
+    [createBottomButton]() {
+        const btn = FileDiff[createButton]();
+        btn.classList.add('bbpr-bottom-btn');
+        btn.addEventListener('click', () => {
+            this[handleBottomButtonClick]();
+        });
+        return btn;
+    }
+
+    static [createButton]() {
         const btn = document.createElement('button');
         btn.classList.add('aui-button', 'aui-button-light');
         btn.innerHTML = `
             <span class="bbpr-not-done">Done Reviewing</span>
             <span class="bbpr-done">Reviewed</span>
         `;
-        btn.addEventListener('click', () => {
-            this[handleButtonClick]();
-        });
         return btn;
     }
 
-    [attachButton](btn) {
+    [attachTopButton](btn) {
         const pluginActionsContainer = document.createElement('div');
         pluginActionsContainer.classList.add('aui-buttons', 'bbpr-buttons');
         pluginActionsContainer.appendChild(btn);
 
         const actionsContainer = this.element.querySelector('.diff-actions');
         actionsContainer.insertBefore(pluginActionsContainer, actionsContainer.firstChild);
+    }
+
+    [attachBottomButton](btn) {
+        this.element.appendChild(btn);
     }
 
     [hideDiffContents]() {
@@ -94,13 +127,23 @@ class FileDiff { // eslint-disable-line no-unused-vars
         this.element.classList.remove('bbpr-reviewed');
     }
 
-    async [handleButtonClick]() {
+    async [handleTopButtonClick]() {
         const reviewedAccordingToUi = this[summaryListElement].classList.contains('bbpr-reviewed');
         if (reviewedAccordingToUi) {
             this.setUnreviewed();
         } else {
             this.setReviewed();
         }
+    }
+
+    [handleBottomButtonClick]() {
+        const rect = this.element.getBoundingClientRect();
+        const clientHeight = document.documentElement.clientHeight;
+        const isTopOfElementInView = rect.top >= 0 && rect.top < (clientHeight - 50);
+        if (!isTopOfElementInView) {
+            this.element.scrollIntoView();
+        }
+        this.setReviewed();
     }
 
     get [summaryListElement]() {
