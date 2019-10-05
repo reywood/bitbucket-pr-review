@@ -12,28 +12,34 @@ class FileDiff { // eslint-disable-line no-unused-vars
         this.fileIdentifier = this.element.dataset.identifier;
     }
 
+    get isUIInitialized() {
+        return !!this.element.querySelector('.bbpr-buttons');
+    }
+
     async hash() {
         return new FileDiffHashV2(this).hash();
     }
 
     initUI() {
-        const reviewedBtn = this[createButton]();
-        this[attachButton](reviewedBtn);
+        if (!this.isUIInitialized) {
+            const reviewedBtn = this[createButton]();
+            this[attachButton](reviewedBtn);
+        }
         this.updateDisplay();
     }
 
     async hasBeenReviewed() {
-        const hbr = async (HashClass) => {
+        const doesHashMatch = async (HashClass) => {
             const hasher = new HashClass(this);
             const hash = await hasher.hash();
             return DataStore.hasBeenReviewed(this.filepath, hash);
         };
 
-        if (await hbr(FileDiffHashV2)) {
+        if (await doesHashMatch(FileDiffHashV2)) {
             return true;
         }
 
-        return hbr(FileDiffHashV1);
+        return doesHashMatch(FileDiffHashV1);
     }
 
     async updateDisplay() {

@@ -64,6 +64,9 @@ class FileDiffHashV1 { // eslint-disable-line no-unused-vars
 
     serializeDiffLines() {
         const containerElement = this.fileDiff.element.querySelector('.diff-content-container');
+        if (!containerElement) {
+            return '';
+        }
         return Array.from(containerElement.querySelectorAll('.udiff-line'))
             .map((line) => {
                 const lineNumbers = line.querySelector('.line-numbers');
@@ -80,6 +83,9 @@ class FileDiffHashV1 { // eslint-disable-line no-unused-vars
 
     serializeComments() {
         const containerElement = this.fileDiff.element.querySelector('.diff-content-container');
+        if (!containerElement) {
+            return '';
+        }
         return Array.from(containerElement.querySelectorAll('.comment article'))
             .map((comment) => {
                 const parts = [

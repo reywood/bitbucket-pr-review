@@ -13,7 +13,8 @@
         "DataStore": true,
         "FileDiff": true,
         "FileDiffHashV1": true,
-        "FileDiffHashV2": true
+        "FileDiffHashV2": true,
+        "throttle": true
     },
     "rules": {
         "complexity": ["error", 5],
