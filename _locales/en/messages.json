@@ -8,7 +8,7 @@
         "description": "The description of the application, displayed in the web store."
     },
     "doneReviewing": {
-        "message": "Done Reviewing WOOOOO",
+        "message": "Done Reviewing",
         "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
     },
     "reviewed": {
