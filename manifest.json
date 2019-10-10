@@ -1,8 +1,9 @@
 {
     "manifest_version": 2,
 
-    "name": "BitBucket Pull Request Review Helper",
-    "description": "This extension allows you to flag individual files in a pull request as reviewed",
+    "name": "__MSG_appName__",
+    "description": "__MSG_appDesc__",
+    "default_locale": "en",
     "version": "1.6.0",
     "homepage_url": "https://github.com/reywood/bitbucket-pr-review",
     "author": "Sean Dwyer",

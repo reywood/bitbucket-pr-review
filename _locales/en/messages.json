@@ -1,0 +1,18 @@
+{
+    "appName": {
+        "message": "BitBucket Pull Request Review Helper",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "appDesc": {
+        "message": "This extension allows you to flag individual files in a pull request as reviewed",
+        "description": "The description of the application, displayed in the web store."
+    },
+    "doneReviewing": {
+        "message": "Done Reviewing",
+        "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
+    },
+    "reviewed": {
+        "message": "Reviewed",
+        "description": "The text shown on the UI button when a file *has* been marked as reviewed."
+    }
+}
