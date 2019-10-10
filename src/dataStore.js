@@ -62,7 +62,7 @@ class DataStore { // eslint-disable-line no-unused-vars
             try {
                 chrome.storage[storageClass].get(
                     key,
-                    createStorageCallback(reject, resolve, items => items[key]),
+                    createStorageCallback(reject, resolve, (items) => items[key]),
                 );
             } catch (error) {
                 reject(error);

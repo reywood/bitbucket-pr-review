@@ -20,8 +20,8 @@ function createHelperMenuDom() {
 
 function getAllFileDiffs() {
     const diffElements = Array.from(document.querySelectorAll(`#changeset-diff .${DIFF_CSS_CLASSNAME}`))
-        .filter(element => !element.querySelector('.load-diff.try-again'));
-    return diffElements.map(element => new FileDiff(element));
+        .filter((element) => !element.querySelector('.load-diff.try-again'));
+    return diffElements.map((element) => new FileDiff(element));
 }
 
 function toggleMenu() {
@@ -38,7 +38,7 @@ function closeMenuOnBodyClick(e) {
     const menuContainer = document.getElementById('bbpr-menu');
     if (menuContainer) {
         const allMenuButtons = Array.from(menuContainer.querySelectorAll('button'));
-        const isMenuClick = allMenuButtons.some(btn => btn === e.target);
+        const isMenuClick = allMenuButtons.some((btn) => btn === e.target);
         if (!isMenuClick) {
             closeMenu();
         }
@@ -58,12 +58,12 @@ function hideAll() {
 }
 
 function setAllToReviewed() {
-    getAllFileDiffs().forEach(fileDiff => fileDiff.setReviewed());
+    getAllFileDiffs().forEach((fileDiff) => fileDiff.setReviewed());
     closeMenu();
 }
 
 function setAllToUnreviewed() {
-    getAllFileDiffs().forEach(fileDiff => fileDiff.setUnreviewed());
+    getAllFileDiffs().forEach((fileDiff) => fileDiff.setUnreviewed());
     closeMenu();
 }
 
@@ -85,9 +85,11 @@ function addHelperMenuEventListeners(menuContainer) {
 
 function initHelperMenu() {
     const pullRequestDiff = document.getElementById('pullrequest-diff');
-    const menuContainer = createHelperMenuDom();
-    addHelperMenuEventListeners(menuContainer);
-    pullRequestDiff.insertBefore(menuContainer, pullRequestDiff.querySelector('#compare'));
+    if (pullRequestDiff) {
+        const menuContainer = createHelperMenuDom();
+        addHelperMenuEventListeners(menuContainer);
+        pullRequestDiff.insertBefore(menuContainer, pullRequestDiff.querySelector('#compare'));
+    }
 }
 
 function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count = 0) {
@@ -100,9 +102,8 @@ function repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, count = 0) {
 function waitForFileSectionLoad(fileSectionSelector) {
     const fileDiffDom = document.querySelector(fileSectionSelector);
     if (fileDiffDom) {
-        const alreadyHasButton = !!fileDiffDom.querySelector('.bbpr-buttons');
-        if (!alreadyHasButton) {
-            const fileDiff = new FileDiff(fileDiffDom);
+        const fileDiff = new FileDiff(fileDiffDom);
+        if (!fileDiff.isUIInitialized) {
             fileDiff.initUI();
             repeatInitUIToWorkAroundCommentLoadIssue(fileDiff, 0);
         }
@@ -166,7 +167,7 @@ function waitForDiffLoad() {
 function watchForDiffTabContentChanges() {
     const mutationObserver = new MutationObserver((mutations) => {
         const wereNodesAdded = mutations
-            .some(mutation => !!mutation.addedNodes && mutation.addedNodes.length > 0);
+            .some((mutation) => !!mutation.addedNodes && mutation.addedNodes.length > 0);
         if (wereNodesAdded && isDiffTabActive()) {
             initIndividualFileDiffsUI();
         }

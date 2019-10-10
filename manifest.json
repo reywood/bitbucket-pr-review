@@ -29,8 +29,10 @@
             "js": [
                 "src/throttle.js",
                 "src/dataStore.js",
+                "src/sha1.js",
+                "src/fileDiffHashV1.js",
+                "src/fileDiffHashV2.js",
                 "src/fileDiff.js",
-                "src/hash.js",
                 "src/init.js"
             ]
         }
