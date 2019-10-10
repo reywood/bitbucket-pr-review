@@ -1,0 +1,18 @@
+{
+    "appName": {
+        "message": "ตัวช่วยในการเช็ค Pull Request",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "appDesc": {
+        "message": "ตัวเสริมนี้จะช่วยให้คุณตั้งค่าไฟล์ที่ได้ทำการตรวจสอบแล้ว",
+        "description": "The description of the application, displayed in the web store."
+    },
+    "doneReviewing": {
+        "message": "เสร็จสิ้นการตรวจสอบ",
+        "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
+    },
+    "reviewed": {
+        "message": "ตรวจสอบเรียบร้อย",
+        "description": "The text shown on the UI button when a file *has* been marked as reviewed."
+    }
+}
