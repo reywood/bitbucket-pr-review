@@ -100,8 +100,8 @@ class FileDiff { // eslint-disable-line no-unused-vars
         const btn = document.createElement('button');
         btn.classList.add('aui-button', 'aui-button-light');
         btn.innerHTML = `
-            <span class="bbpr-not-done">Done Reviewing</span>
-            <span class="bbpr-done">Reviewed</span>
+            <span class="bbpr-not-done">${chrome.i18n.getMessage('doneReviewing')}</span>
+            <span class="bbpr-done">${chrome.i18n.getMessage('reviewed')}</span>
         `;
         return btn;
     }
@@ -138,7 +138,7 @@ class FileDiff { // eslint-disable-line no-unused-vars
 
     [handleBottomButtonClick]() {
         const rect = this.element.getBoundingClientRect();
-        const clientHeight = document.documentElement.clientHeight;
+        const { clientHeight } = document.documentElement;
         const isTopOfElementInView = rect.top >= 0 && rect.top < (clientHeight - 50);
         if (!isTopOfElementInView) {
             this.element.scrollIntoView();
