@@ -1,18 +1,14 @@
 {
     "appName": {
-        "message": "ตัวช่วยในการเช็ค Pull Request",
-        "description": "The title of the application, displayed in the web store."
+        "message": "ตัวช่วยในการเช็ค BitBucket Pull Request"
     },
     "appDesc": {
-        "message": "ตัวเสริมนี้จะช่วยให้คุณตั้งค่าไฟล์ที่ได้ทำการตรวจสอบแล้ว",
-        "description": "The description of the application, displayed in the web store."
+        "message": "ตัวเสริมนี้จะช่วยให้คุณตั้งค่าไฟล์ที่ได้ทำการตรวจสอบแล้ว"
     },
     "doneReviewing": {
-        "message": "เสร็จสิ้นการตรวจสอบ",
-        "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
+        "message": "เสร็จสิ้นการตรวจสอบ"
     },
     "reviewed": {
-        "message": "ตรวจสอบเรียบร้อย",
-        "description": "The text shown on the UI button when a file *has* been marked as reviewed."
+        "message": "ตรวจสอบเรียบร้อย"
     }
 }
