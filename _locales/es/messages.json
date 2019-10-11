@@ -1,0 +1,18 @@
+{
+    "appName": {
+        "message": "Asistente para la Revisión de Pull Requests de Bitbucket",
+        "description": "El Título de la Aplicación, Mostrado en la Web Store"
+    },
+    "appDesc": {
+        "message": "Esta extensión te ayuda marcar los archivos de una pull request como ´revisados´",
+        "description": "La descripción de la Aplicación, Mostrada en la Web Store."
+    },
+    "doneReviewing": {
+        "message": "Terminar Revisión",
+        "description": "El texto mostrado en el boton en la Interfaz de Usuario cuando un archivo *no ha* sido marcado como revisado"
+    },
+    "reviewed": {
+        "message": "Revisado",
+        "description": "El texto mostrado en el boton en la Interfaz de Usuario cuando un archivo *ha* sido marcado como revisado"
+    }
+}
