@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket Pull Request Assistente de Revisão"
+    },
+    "appDesc": {
+        "message": "Essa extensão permite marcar arquivos individuais em um pull request como revisado"
+    },
+    "doneReviewing": {
+        "message": "Concluir revisão"
+    },
+    "reviewed": {
+        "message": "Revisado"
+    }
+}
