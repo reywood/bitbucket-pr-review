@@ -1,0 +1,18 @@
+{
+    "appName": {
+        "message": "Tulong sa Pagsusuri ng Hiling na Pagkuha sa BitBucket",
+        "description": "The title of the application, displayed in the web store."
+    },
+    "appDesc": {
+        "message": "Pinapayagan ka ng ekstensiyon na ito na hudyatan ang mga indibidwal na file sa isang hiling na pagkuha hangga't susuriin",
+        "description": "The description of the application, displayed in the web store."
+    },
+    "doneReviewing": {
+        "message": "Tapos na Pagsusuri",
+        "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
+    },
+    "reviewed": {
+        "message": "Sinuri",
+        "description": "The text shown on the UI button when a file *has* been marked as reviewed."
+    }
+}
