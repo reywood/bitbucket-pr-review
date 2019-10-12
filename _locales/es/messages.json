@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "Asistente para la Revisión de Pull Requests de Bitbucket"
+    },
+    "appDesc": {
+        "message": "Esta extensión te ayuda marcar los archivos de una pull request como ´revisados´"
+    },
+    "doneReviewing": {
+        "message": "Terminar Revisión"
+    },
+    "reviewed": {
+        "message": "Revisado"
+    }
+}
