@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket Pull užklausų pagalbininkas"
+    },
+    "appDesc": {
+        "message": "Šis plėtinys leidžia jums pažymėti atskirus failus pull užklausoje peržiūrėtais"
+    },
+    "doneReviewing": {
+        "message": "Peržiūrėta"
+    },
+    "reviewed": {
+        "message": "Peržiūrėjama"
+    }
+}
