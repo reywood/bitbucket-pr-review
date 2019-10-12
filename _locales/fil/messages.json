@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "Tulong sa Pagsusuri ng Hiling na Pagkuha sa BitBucket"
+    },
+    "appDesc": {
+        "message": "Pinapayagan ka ng ekstensiyon na ito na hudyatan ang mga indibidwal na file sa isang hiling na pagkuha hangga't susuriin"
+    },
+    "doneReviewing": {
+        "message": "Tapos na Pagsusuri"
+    },
+    "reviewed": {
+        "message": "Sinuri"
+    }
+}
