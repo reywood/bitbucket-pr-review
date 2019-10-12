@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket Pull Request Überprüfung Helfer"
+    },
+    "appDesc": {
+        "message": "Mit dieser Erweiterung können Sie die Dateien in ein Pull Request einzeln als überprüft markieren"
+    },
+    "doneReviewing": {
+        "message": "Markieren als überprüft"
+    },
+    "reviewed": {
+        "message": "Überprüft"
+    }
+}
