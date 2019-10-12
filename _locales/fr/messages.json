@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket Pull Request Review Helper"
+    },
+    "appDesc": {
+        "message": "Cette extension vous permet de marquer individuellement les fichiers présents dans une pull request comme revus"
+    },
+    "doneReviewing": {
+        "message": "Marquer comme revu"
+    },
+    "reviewed": {
+        "message": "Revu"
+    }
+}
