@@ -116,10 +116,11 @@ ul.commit-files-summary li.bbpr-reviewed::after,
 }
 
 .bb-udiff {
-    .bbpr-buttons button, .bbpr-bottom-btn {
-         .bbpr-done {
+    .bbpr-buttons button,
+    .bbpr-bottom-btn {
+        .bbpr-done {
             display: none;
-         }
+        }
     }
 
     .bbpr-bottom-btn-container {

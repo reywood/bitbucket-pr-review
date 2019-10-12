@@ -78,7 +78,8 @@ ul.commit-files-summary li.bbpr-reviewed::after,
   color: #0b0;
   content: '✔'; }
 
-.bb-udiff .bbpr-buttons button .bbpr-done, .bb-udiff .bbpr-bottom-btn .bbpr-done {
+.bb-udiff .bbpr-buttons button .bbpr-done,
+.bb-udiff .bbpr-bottom-btn .bbpr-done {
   display: none; }
 
 .bb-udiff .bbpr-bottom-btn-container {

@@ -183,6 +183,26 @@ function watchForDiffTabContentChanges() {
 }
 
 function handleScrolling() {
+    const isBelowViewport = (rect, clientHeight, bottomBtn) => (
+        rect.top > clientHeight - bottomBtn.offsetHeight - 10
+    );
+    const isAboveViewport = (rect) => rect.bottom < 0;
+    const isBottomInView = (rect, clientHeight) => (
+        rect.bottom > 0 && rect.bottom < clientHeight - 10
+    );
+
+    const updateBottomBtn = (rect, clientHeight, bottomBtn) => {
+        if (isBelowViewport(rect, clientHeight, bottomBtn)) {
+            bottomBtn.classList.remove('bbpr-affix', 'bbpr-affix-bottom');
+        } else if (isAboveViewport(rect) || isBottomInView(rect, clientHeight)) {
+            bottomBtn.classList.remove('bbpr-affix');
+            bottomBtn.classList.add('bbpr-affix-bottom');
+        } else {
+            bottomBtn.classList.remove('bbpr-affix-bottom');
+            bottomBtn.classList.add('bbpr-affix');
+        }
+    };
+
     const scrollHandler = throttle(() => {
         const { clientHeight } = document.documentElement;
         getAllFileDiffElements().forEach((element) => {
@@ -194,19 +214,7 @@ function handleScrolling() {
             }
 
             const rect = bottomBtnContainer.getBoundingClientRect();
-            const isBelowViewport = rect.top > clientHeight - bottomBtn.offsetHeight - 10;
-            const isAboveViewport = rect.bottom < 0;
-            const isBottomInView = rect.bottom > 0 && rect.bottom < clientHeight - 10;
-
-            if (isBelowViewport) {
-                bottomBtn.classList.remove('bbpr-affix', 'bbpr-affix-bottom');
-            } else if (isAboveViewport || isBottomInView) {
-                bottomBtn.classList.remove('bbpr-affix');
-                bottomBtn.classList.add('bbpr-affix-bottom');
-            } else {
-                bottomBtn.classList.remove('bbpr-affix-bottom');
-                bottomBtn.classList.add('bbpr-affix');
-            }
+            updateBottomBtn(rect, clientHeight, bottomBtn);
         });
     }, 10);
     window.addEventListener('scroll', scrollHandler);
@@ -218,4 +226,4 @@ function handleScrolling() {
     init();
     watchForDiffTabContentChanges();
     handleScrolling();
-})();
+}());
