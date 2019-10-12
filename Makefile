@@ -29,7 +29,8 @@ test: lint
 
 $(BUNDLE_FILE_PATH):
 	mkdir -p $(BUILD_DIR)
-	zip -r $(BUNDLE_FILE_PATH) manifest.json src/*.js src/*.css images/*.png
+	zip -r $(BUNDLE_FILE_PATH) manifest.json src/*.js src/*.css images/*.png _locales/**/*.json
+	@echo Created bundle $(BUNDLE_FILE_PATH)
 
 $(ESLINT):
 	npm install
