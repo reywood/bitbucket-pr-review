@@ -78,15 +78,26 @@ ul.commit-files-summary li.bbpr-reviewed::after,
   color: #0b0;
   content: '✔'; }
 
-.bb-udiff .bbpr-buttons button .bbpr-done {
+.bb-udiff .bbpr-buttons button .bbpr-done, .bb-udiff .bbpr-bottom-btn .bbpr-done {
   display: none; }
 
-.bb-udiff .bbpr-bottom-btn {
+.bb-udiff .bbpr-bottom-btn-container {
   position: absolute;
-  bottom: .5em;
-  right: .5em; }
-  .bb-udiff .bbpr-bottom-btn .bbpr-done {
-    display: none; }
+  top: 100px;
+  bottom: 10px;
+  right: 0; }
+  .bb-udiff .bbpr-bottom-btn-container .bbpr-bottom-btn {
+    position: absolute;
+    top: 0;
+    right: 10px; }
+    .bb-udiff .bbpr-bottom-btn-container .bbpr-bottom-btn.bbpr-affix {
+      position: fixed;
+      top: auto;
+      bottom: 10px;
+      right: 30px; }
+    .bb-udiff .bbpr-bottom-btn-container .bbpr-bottom-btn.bbpr-affix-bottom {
+      top: auto;
+      bottom: 0; }
 
 .bb-udiff.bbpr-reviewed .bbpr-buttons button .bbpr-not-done {
   display: none; }

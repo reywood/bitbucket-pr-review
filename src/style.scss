@@ -116,17 +116,38 @@ ul.commit-files-summary li.bbpr-reviewed::after,
 }
 
 .bb-udiff {
-    .bbpr-buttons button .bbpr-done {
-        display: none;
+    .bbpr-buttons button, .bbpr-bottom-btn {
+         .bbpr-done {
+            display: none;
+         }
     }
 
-    .bbpr-bottom-btn {
-        position: absolute;
-        bottom: .5em;
-        right: .5em;
+    .bbpr-bottom-btn-container {
+        $bottom-offset: 10px;
+        $right-offset: 10px;
+        $page-padding: 20px;
 
-        .bbpr-done {
-            display: none;
+        position: absolute;
+        top: 100px;
+        bottom: $bottom-offset;
+        right: 0;
+
+        .bbpr-bottom-btn {
+            position: absolute;
+            top: 0;
+            right: $right-offset;
+
+            &.bbpr-affix {
+                position: fixed;
+                top: auto;
+                bottom: $bottom-offset;
+                right: $right-offset + $page-padding;
+            }
+
+            &.bbpr-affix-bottom {
+                top: auto;
+                bottom: 0;
+            }
         }
     }
 
