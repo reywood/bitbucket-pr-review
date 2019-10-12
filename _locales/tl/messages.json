@@ -1,18 +1,14 @@
 {
     "appName": {
-        "message": "ᜆᜓᜎᜓᜅ᜔ ᜐ ᜉᜄ᜔ᜐᜓᜐᜓᜇᜒ ᜈᜅ᜔ ᜑᜒᜎᜒᜅ᜔ ᜈ ᜉᜄ᜔ᜃᜓᜑ ᜐ BitBucket",
-        "description": "The title of the application, displayed in the web store."
+        "message": "ᜆᜓᜎᜓᜅ᜔ ᜐ ᜉᜄ᜔ᜐᜓᜐᜓᜇᜒ ᜈᜅ᜔ ᜑᜒᜎᜒᜅ᜔ ᜈ ᜉᜄ᜔ᜃᜓᜑ ᜐ BitBucket"
     },
     "appDesc": {
-        "message": "ᜉᜒᜈᜉᜌᜄᜈ᜔ ᜃ ᜈᜅ᜔ ᜁᜃ᜔ᜐ᜔ᜆᜒᜈ᜔ᜐᜒᜌᜓᜈ᜔ ᜈ ᜁᜆᜓ ᜈ ᜑᜓᜇ᜔ᜌᜆᜈ᜔ ᜀᜅ᜔ ᜋᜅ ᜁᜈ᜔ᜇᜒᜊᜒᜇ᜔ᜏᜎ᜔ ᜈ file ᜐ ᜁᜐᜅ᜔ ᜑᜒᜎᜒᜅ᜔ ᜈ ᜉᜄ᜔ᜃᜓᜑ ᜑᜅ᜔ᜄ'ᜆ᜔ ᜐᜓᜐᜓᜇᜒᜁᜈ᜔",
-        "description": "The description of the application, displayed in the web store."
+        "message": "ᜉᜒᜈᜉᜌᜄᜈ᜔ ᜃ ᜈᜅ᜔ ᜁᜃ᜔ᜐ᜔ᜆᜒᜈ᜔ᜐᜒᜌᜓᜈ᜔ ᜈ ᜁᜆᜓ ᜈ ᜑᜓᜇ᜔ᜌᜆᜈ᜔ ᜀᜅ᜔ ᜋᜅ ᜁᜈ᜔ᜇᜒᜊᜒᜇ᜔ᜏᜎ᜔ ᜈ file ᜐ ᜁᜐᜅ᜔ ᜑᜒᜎᜒᜅ᜔ ᜈ ᜉᜄ᜔ᜃᜓᜑ ᜑᜅ᜔ᜄ'ᜆ᜔ ᜐᜓᜐᜓᜇᜒᜁᜈ᜔"
     },
     "doneReviewing": {
-        "message": "ᜆᜉᜓᜐ᜔ ᜈ ᜉᜄ᜔ᜐᜓᜐᜓᜇᜒ",
-        "description": "The text shown on the UI button when a file *has not* been marked as reviewed."
+        "message": "ᜆᜉᜓᜐ᜔ ᜈ ᜉᜄ᜔ᜐᜓᜐᜓᜇᜒ"
     },
     "reviewed": {
-        "message": "ᜐᜒᜈᜓᜇᜒ",
-        "description": "The text shown on the UI button when a file *has* been marked as reviewed."
+        "message": "ᜐᜒᜈᜓᜇᜒ"
     }
 }
