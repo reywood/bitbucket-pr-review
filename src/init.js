@@ -18,9 +18,13 @@ function createHelperMenuDom() {
     return menuContainer;
 }
 
-function getAllFileDiffs() {
-    const diffElements = Array.from(document.querySelectorAll(`#changeset-diff .${DIFF_CSS_CLASSNAME}`))
+function getAllFileDiffElements() {
+    return Array.from(document.querySelectorAll(`#changeset-diff .${DIFF_CSS_CLASSNAME}`))
         .filter((element) => !element.querySelector('.load-diff.try-again'));
+}
+
+function getAllFileDiffs() {
+    const diffElements = getAllFileDiffElements();
     return diffElements.map((element) => new FileDiff(element));
 }
 
@@ -173,13 +177,45 @@ function watchForDiffTabContentChanges() {
         }
     });
     const tabContentsNode = document.querySelector('#pr-tab-content-wrapper');
-    mutationObserver.observe(tabContentsNode, { childList: true, subtree: true });
+    if (tabContentsNode) {
+        mutationObserver.observe(tabContentsNode, { childList: true, subtree: true });
+    }
 }
 
-async function main() {
+function handleScrolling() {
+    const scrollHandler = throttle(() => {
+        const { clientHeight } = document.documentElement;
+        getAllFileDiffElements().forEach((element) => {
+            const bottomBtnContainer = element.querySelector('.bbpr-bottom-btn-container');
+            const bottomBtn = element.querySelector('.bbpr-bottom-btn');
+
+            if (!bottomBtnContainer) {
+                return;
+            }
+
+            const rect = bottomBtnContainer.getBoundingClientRect();
+            const isBelowViewport = rect.top > clientHeight - bottomBtn.offsetHeight - 10;
+            const isAboveViewport = rect.bottom < 0;
+            const isBottomInView = rect.bottom > 0 && rect.bottom < clientHeight - 10;
+
+            if (isBelowViewport) {
+                bottomBtn.classList.remove('bbpr-affix', 'bbpr-affix-bottom');
+            } else if (isAboveViewport || isBottomInView) {
+                bottomBtn.classList.remove('bbpr-affix');
+                bottomBtn.classList.add('bbpr-affix-bottom');
+            } else {
+                bottomBtn.classList.remove('bbpr-affix-bottom');
+                bottomBtn.classList.add('bbpr-affix');
+            }
+        });
+    }, 10);
+    window.addEventListener('scroll', scrollHandler);
+    scrollHandler();
+}
+
+(async function main() {
     await waitForDiffLoad();
     init();
     watchForDiffTabContentChanges();
-}
-
-main();
+    handleScrolling();
+})();

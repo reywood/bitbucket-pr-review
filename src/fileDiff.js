@@ -116,7 +116,10 @@ class FileDiff { // eslint-disable-line no-unused-vars
     }
 
     [attachBottomButton](btn) {
-        this.element.appendChild(btn);
+        const bottomButtonContainer = document.createElement('div');
+        bottomButtonContainer.classList.add('bbpr-bottom-btn-container');
+        bottomButtonContainer.appendChild(btn);
+        this.element.appendChild(bottomButtonContainer);
     }
 
     [hideDiffContents]() {
