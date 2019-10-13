@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket pomocnik do recenzji prośby o pociągnięcie"
+    },
+    "appDesc": {
+        "message": "To rozszerzenie pomaga ci zaznaczać pojedyncze pliki w prośby o pociągnięcie kiedy jest oceniany"
+    },
+    "doneReviewing": {
+        "message": "Skonczone Recenzowanie"
+    },
+    "reviewed": {
+        "message": "Już Sprawdzone"
+    }
+}
