@@ -1,0 +1,14 @@
+{
+    "appName": {
+        "message": "BitBucket Pull Request İnceleme Yardımcısı"
+    },
+    "appDesc": {
+        "message": "Bu eklenti her bir pull request dosyasını 'incelendi' olarak işaretlemenizi sağlar"
+    },
+    "doneReviewing": {
+        "message": "İnceleme bitti"
+    },
+    "reviewed": {
+        "message": "İncelendi"
+    }
+}
