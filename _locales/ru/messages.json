@@ -1,0 +1,14 @@
+﻿{
+    "appName": {
+        "message": "BitBucket Pull Request Review Helper"
+    },
+    "appDesc": {
+        "message": "Это расширение позволит вам отмечать отдельные файлы как проверенные в процессе проверки pull request"
+    },
+    "doneReviewing": {
+        "message": "Закончить проверку"
+    },
+    "reviewed": {
+        "message": "Проверено"
+    }
+}
