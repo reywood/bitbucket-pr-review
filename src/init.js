@@ -12,6 +12,7 @@ function createHelperMenuDom() {
             <li><button class="bbpr-display-all-btn">Display all reviewed diffs</button></li>
             <li><button class="bbpr-hide-all-btn">Hide all reviewed diffs</button></li>
             <li><button class="bbpr-mark-all">Mark all files as reviewed</button></li>
+            <li><button class="bbpr-mark-all-snapshots">Mark all snapshots as reviewed</button></li>
             <li><button class="bbpr-unmark-all">Mark all files as unreviewed</button></li>
         </ul>
     `;
@@ -66,6 +67,13 @@ function setAllToReviewed() {
     closeMenu();
 }
 
+function setAllSnapshotsToReviewed() {
+    getAllFileDiffs().forEach((fileDiff) => {
+        if (fileDiff.element.id.includes('.snap')) fileDiff.setReviewed();
+    });
+    closeMenu();
+}
+
 function setAllToUnreviewed() {
     getAllFileDiffs().forEach((fileDiff) => fileDiff.setUnreviewed());
     closeMenu();
@@ -76,12 +84,14 @@ function addHelperMenuEventListeners(menuContainer) {
     const displayAllButton = menuContainer.querySelector('.bbpr-display-all-btn');
     const hideAllButton = menuContainer.querySelector('.bbpr-hide-all-btn');
     const markAllButton = menuContainer.querySelector('.bbpr-mark-all');
+    const markAllSnapshotsButton = menuContainer.querySelector('.bbpr-mark-all-snapshots');
     const unmarkAllButton = menuContainer.querySelector('.bbpr-unmark-all');
 
     menuButton.addEventListener('click', toggleMenu);
     displayAllButton.addEventListener('click', displayAll);
     hideAllButton.addEventListener('click', hideAll);
     markAllButton.addEventListener('click', setAllToReviewed);
+    markAllSnapshotsButton.addEventListener('click', setAllSnapshotsToReviewed);
     unmarkAllButton.addEventListener('click', setAllToUnreviewed);
 
     document.body.addEventListener('click', closeMenuOnBodyClick);
