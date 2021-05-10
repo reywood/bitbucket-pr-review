@@ -5,7 +5,6 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
-    "node-sass": "^4.13.1",
-    "sass-lint": "^1.10.2"
+    "node-sass": "^4.13.1"
   }
 }
