@@ -4,7 +4,7 @@
     "name": "__MSG_appName__",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
-    "version": "1.6.0",
+    "version": "1.7.0",
     "homepage_url": "https://github.com/reywood/bitbucket-pr-review",
     "author": "Sean Dwyer",
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA33HvTb0USCf31N78Lfm9RL6lWkoExLzMvDTqCpWN8rkwRDgIhs/fgQfTEFsf0kvWzcZBkMsJk4Xu0xEe2ylsvRpeLim/PTNS59/dltC5ojD20vFn9i7y6FAo6Hpqo94DbZ8g7R/YNevt2HjoAjPEy/KR5PZ+tT64a+pdYE3kLhV+xXhsXGPOS79RpQ0YwsEwqiDeKsBoL4+uJM4qCnn1ZoOuUJfZXijRKfRHC5b9oIlcKsw6/iV6uwlJvzzPprESL0NgL5HKQa3RUs8mhbBlewDtCZXcQ/0b7W7Gnt0DBTe6LUIAEpgChExD7PTG/kAXSBX6Q3hhcYwhVADcLZf9RwIDAQAB",
@@ -38,7 +38,6 @@
         }
     ],
     "permissions": [
-        "activeTab",
         "storage"
     ]
 }
