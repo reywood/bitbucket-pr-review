@@ -22,7 +22,10 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://bitbucket.org/*/pull-requests/*"],
+            "matches": [
+                "https://bitbucket.org/*/pull-requests/*",
+                "https://*/projects/*/repos/*/pull-requests/*"
+            ],
             "css": [
                 "src/style.css"
             ],
